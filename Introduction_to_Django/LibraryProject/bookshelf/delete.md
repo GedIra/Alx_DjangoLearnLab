@@ -1,2 +1,2 @@
-Book.objects.filter(title="Nineteen Eighty-Four").delete()              
+new_book.delete()                 
 #  (1, {'bookshelf.Book': 1})
