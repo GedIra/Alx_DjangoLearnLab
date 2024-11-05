@@ -1,2 +1,2 @@
-new_book.title = "Nineteen Eighty-Four"   
-new_book.save() 
+Book.objects.filter(author="George Orwell").update(title="Nineteen Eighty-Four")  
+#  1
