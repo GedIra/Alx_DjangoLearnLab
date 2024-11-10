@@ -9,7 +9,8 @@ for book in books:
   print(book.title)
 
 #List all books in a library.
-all_library_books = Library.objects.all()
+library_name = 'Ikaze Library'
+all_library_books = Library.objects.get(name=library_name)
 
 for book in all_library_books:
   print(book.title)
