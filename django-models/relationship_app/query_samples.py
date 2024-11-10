@@ -1,9 +1,11 @@
 #from .models import Author, Book, Library, Librarian
 
-author = Author.objects.create(name='George Orwell')
+author_name = "George Orwell"
+
+author = Author.objects.get(name=author_name)
 
 #Query all books by a specific author.
-books = Book.objects.filter(author='George Orwell')
+books = Book.objects.filter(author=author_name)
 
 for book in books:
   print(book.title)
