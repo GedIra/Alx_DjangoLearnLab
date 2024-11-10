@@ -10,7 +10,8 @@ for book in books:
 
 #List all books in a library.
 library_name = 'Ikaze Library'
-all_library_books = Library.objects.get(name=library_name)
+books = Library.objects.get(name=library_name)
+all_library_books = books.all()
 
 for book in all_library_books:
   print(book.title)
