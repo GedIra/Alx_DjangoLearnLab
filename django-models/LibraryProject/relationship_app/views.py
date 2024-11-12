@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.http import HttpResponse
@@ -44,10 +45,26 @@ class LibraryDetailView(ListView):
       context['library'] = get_object_or_404(Library, pk=self.kwargs.get('pk'))
       return context
   
-class register(CreateView):
-    form_class = UserCreationForm
-    success_url = reverse_lazy('login')
-    template_name = 'relationship_app/register.html'
+def register(request):
+
+  if request.method == 'POST':
+    form = UserCreationForm(request.POST)
+
+    if form.is_valid():
+      form.save()
+      redirect('login')
+    
+    else:
+      form.add_error(None, 'Invalid username or password')
+    
+  else:
+    form = UserCreationForm()
+
+  context = {'form': form}
+
+  return render(request, 'relationship_app/register.html', context)
+
+
 
 
 
