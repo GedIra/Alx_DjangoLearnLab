@@ -68,7 +68,7 @@ def is_librarian(user):
 
 #@login_required
 @user_passes_test(is_admin, login_url='login/')
-def admin_view(request):
+def AdminView(request):
   return HttpResponse('<h1>Welcome admin</h1>')
 
 @user_passes_test(is_librarian, login_url='login/')
