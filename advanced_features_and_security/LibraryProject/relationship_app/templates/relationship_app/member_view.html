@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member View</title>
+</head>
+<body>
+  <h1>Welcome, Member {{user}}</h1>
+  <p>This is the member's page. You can browse books and borrow them.</p>
+  <h1>Books Available:</h1>
+    <ol>
+        {% for book in books %}
+        <li><b>{{i}}{{ book.title }}</b> by {{ book.author.name }}</li>
+        {% endfor %}
+    </ol>
+</body>
+</html>
