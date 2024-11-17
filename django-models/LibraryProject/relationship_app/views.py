@@ -79,9 +79,9 @@ def member_view(request):
   return HttpResponse('<h1>Welcome Member</h1>')
 
 
-def Logout(request):
-    logout(request)
-    return render(request, 'relationship_app/logout.html')
+# def Logout(request):
+#     logout(request)
+#     return render(request, 'relationship_app/logout.html')
 
 @login_required(login_url="/login/")
 @permission_required("relationship_app.can_delete_book", raise_exception=True)
