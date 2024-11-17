@@ -57,25 +57,24 @@ def register(request):
 def has_role(user, role):
   return UserProfile.objects.filter(user=user, role=role).exists()
 
-def is_admin(user):
+def Admin(user):
   return has_role(user, 'Admin')
 
-def is_member(user):
+def Member(user):
   return  has_role(user, 'Member')
 
-def is_librarian(user):
+def Librarian(user):
   return has_role(user, 'Librarian')
 
-#@login_required
-@user_passes_test(is_admin, login_url='login/')
+@user_passes_test(Admin, login_url='login/')
 def AdminView(request):
   return HttpResponse('<h1>Welcome admin</h1>')
 
-@user_passes_test(is_librarian, login_url='login/')
+@user_passes_test(Librarian, login_url='login/')
 def librarian_view(request):
   return HttpResponse('<h1>Welcome Librarian</h1>')
 
-@user_passes_test(is_member, login_url='login')
+@user_passes_test(Member, login_url='login')
 def member_view(request):
   return HttpResponse('<h1>Welcome Member</h1>')
 
