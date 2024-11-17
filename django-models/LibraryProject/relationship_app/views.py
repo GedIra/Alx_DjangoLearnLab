@@ -66,17 +66,20 @@ def Member(user):
 def Librarian(user):
   return has_role(user, 'Librarian')
 
-@user_passes_test(Admin, login_url='login/')
+@user_passes_test(Admin, login_url='/login/')
 def AdminView(request):
-  return HttpResponse('<h1>Welcome admin</h1>')
+  user = request.user
+  return render(request, 'relationship_app/admin_view.html', {"user": user})
 
-@user_passes_test(Librarian, login_url='login/')
-def librarian_view(request):
-  return HttpResponse('<h1>Welcome Librarian</h1>')
+@user_passes_test(Librarian, login_url='/login/')
+def Librarian_view(request):
+  libraries = Library.objects.all()
+  return render(request, 'relationship_app/librarian_view.html', {"libraries": libraries })
 
-@user_passes_test(Member, login_url='login')
-def member_view(request):
-  return HttpResponse('<h1>Welcome Member</h1>')
+@user_passes_test(Member, login_url='/login/')
+def Member_view(request):
+  books = Book.objects.all()
+  return render(request, 'relationship_app/member_view.html', {'books': books})
 
 
 # def Logout(request):
