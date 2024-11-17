@@ -7,10 +7,10 @@
 </head>
 <body>
     <h1>Books Available:</h1>
-    <ul>
+    <ol>
         {% for book in books %}
-        <li><b>{{ book.title }}</b> by {{ book.author.name }}</li>
+        <li><b>{{i}}{{ book.title }}</b> by {{ book.author.name }}</li>
         {% endfor %}
-    </ul>
+    </ol>
 </body>
 </html>
