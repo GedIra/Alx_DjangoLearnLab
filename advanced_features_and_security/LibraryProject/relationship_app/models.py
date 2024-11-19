@@ -37,15 +37,13 @@ class Librarian(models.Model):
   def __str__(self):
     return self.name
 
-from django.conf import settings
-
 class UserProfile(models.Model):
   class Role(models.TextChoices):
     admin = 'Admin'
     member = 'Member'
     librarian = 'Librarian'
   
-  user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+  user = models.OneToOneField(User, on_delete=models.CASCADE)
   role = models.CharField(choices=Role, max_length=10, default=Role.member)
 
   def __str__(self) -> str:
