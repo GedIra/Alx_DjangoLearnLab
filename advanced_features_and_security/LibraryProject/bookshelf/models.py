@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import BaseUserManager
 
 
-class UserManager(BaseUserManager):
+class CustomUserManager(BaseUserManager):
   def create_user(self, username, date_of_birth, password=None):
     if not date_of_birth:
       raise ValueError("Users date of birth is required")
@@ -29,7 +29,7 @@ class CustomUser(AbstractUser):
   date_of_birth = models.DateField()
   profile_photo = models.ImageField(upload_to=None, null=True, blank=True)
   
-  objects = UserManager()
+  objects = CustomUserManager()
   
   REQUIRED_FIELDS = ['date_of_birth']
 
