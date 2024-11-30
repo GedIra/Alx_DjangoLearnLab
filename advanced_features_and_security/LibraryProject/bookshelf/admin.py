@@ -52,47 +52,18 @@ class UserChangeForm(forms.ModelForm):
 
 
 class  CustomUserAdmin(BaseUserAdmin):
-    # The forms to add and change user instances
-    form = UserChangeForm
-    add_form = UserCreationForm
-
-    # The fields to be used in displaying the User model.
-    # These override the definitions on the base UserAdmin
-    # that reference specific fields on auth.User.
+    
     list_display = ["username", "date_of_birth", "is_staff"]
     list_filter = ["is_staff"]
-    fieldsets = [
-        (None, {"fields": ["username", "password"]}),
-        ("Personal info", {"fields": ["date_of_birth"]}),
-        ("Permissions", {"fields": ["is_staff"]}),
-    ]
-    # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
-    # overrides get_fieldsets to use this attribute when creating a user.
-    add_fieldsets = [
-        (
-            None,
-            {
-                "classes": ["wide"],
-                "fields": ["username", "date_of_birth", "password1", "password2"],
-            },
-        ),
-    ]
-    search_fields = ["username"]
-    ordering = ["username"]
-    filter_horizontal = []
 
-
-# Now register the new UserAdmin...
 admin.site.register(CustomUser, CustomUserAdmin)
-# ... and, since we're not using Django's built-in permissions,
-# unregister the Group model from admin.
-admin.site.unregister(Group)
+
 
 from .models import Book
 
 #Register your models here.
 class BookAdmin(admin.ModelAdmin):
-  list_display = ("title", "author","publication_year",)
+  list_display = ("title", "author","publication_year","pk")
   list_filter = ("author","publication_year",)
   search_fields = ('title', 'author', "publication_year")
   

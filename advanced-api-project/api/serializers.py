@@ -35,7 +35,7 @@ class AuthorSerializer(serializers.ModelSerializer):
   4. Many=True allowing many books to be displayed (as one author can be associated with many books)
   5. read_ony=True, avoid eaditing the data
   """
-  books = BookSerializer(many=True, ready_only=True)
+  books = BookSerializer(many=True, read_only=True)
   
   class Meta:
     model = Author
