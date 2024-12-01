@@ -1,7 +1,7 @@
 from rest_framework import generics
 from .models import Book,Author
 from .serializers import BookSerializer, AuthorSerializer
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 
 # Create your views here.
 
