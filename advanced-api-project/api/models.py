@@ -23,11 +23,12 @@ Returns:
   _type_: _description_
   string: Book objects will be presented as title and it's author's name. e.g: THE SUN by David F. Gorge
 
-""" 
+"""
 class Book(models.Model):
   title = models.CharField(max_length=50)
   author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='books')
   publication_year = models.IntegerField()
+  
   
   def __str__(self) -> str:
     return f"{self.title} by {self.author}"
