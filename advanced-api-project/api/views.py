@@ -10,8 +10,8 @@ from rest_framework import filters
 class AuthorsAPIView(generics.ListCreateAPIView):
   serializer_class = AuthorSerializer
   def get_queryset(self):
-      queryset = Author.objects.all()
-      return queryset  
+    queryset = Author.objects.all()
+    return queryset  
 
 class ListView(generics.ListAPIView):
   permission_classes = [IsAuthenticatedOrReadOnly]
