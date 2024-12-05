@@ -127,3 +127,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGOUT_REDIRECT_URL = 'login'
 
 AUTH_USER_MODEL = "bookshelf.CustomUser"
+
+"""Security Measures"""
+
+
+SECURE_BROWSER_XSS_FILTER = True  # Enables the X-XSS-Protection header
+X_FRAME_OPTIONS = 'DENY'  # Prevents clickjacking by not allowing the site to be rendered in a frame
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevents the browser from MIME-sniffing a response away from the declared content-type
+
+#Ensure that cookies are only sent over HTTPS
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
