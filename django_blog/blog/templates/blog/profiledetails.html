@@ -1,0 +1,14 @@
+<div class="container">
+  <h2>Profile Detail</h2>
+  <div class="profile">
+    <h3>Username: {{ profile.user.username }}</h3>
+    {% if profile.picture %}
+      <img src="{{ profile.picture }}" alt="Profile Picture" class="img-thumbnail">
+    {% else %}
+      <p>No profile picture available.</p>
+    {% endif %}
+    <p><strong>Email:</strong> {{ profile.user.email }}</p>
+    <p><strong>Date of Birth:</strong> {{ profile.dob }}</p>
+    <p><strong>Biography:</strong> {{ profile.bio }}</p>
+  </div>
+</div>
