@@ -51,7 +51,7 @@ class UserProfileView(DetailView):
   def get_object(self, queryset = None):
     return UserProfile.objects.get(user= self.request.user)
   
-  
+#save()
 
 class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
   model = UserProfile
