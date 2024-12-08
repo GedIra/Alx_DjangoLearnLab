@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.shortcuts import HttpResponse
-from .models import UserProfile, User
+from .models import UserProfile, User, Post
 
 
 class UserCreationForm(forms.ModelForm):
@@ -49,6 +49,7 @@ class UserProfileForm(forms.ModelForm):
     if self.instance and self.instance.user:
       self.fields['email'].initial = self.instance.user.email
 
+
     # Apply CSS classes and attributes
     self.fields['email'].widget.attrs.update({'class': 'form-control'})
     self.fields['picture'].widget.attrs.update({'class': 'form-control'})
@@ -63,3 +64,7 @@ class UserProfileForm(forms.ModelForm):
         user_profile.save()
     return user_profile
 
+class PostForm(forms.ModelForm):
+  class Meta:
+    model = Post
+    exclude = ['author']
