@@ -142,7 +142,7 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
     context["post"] = get_object_or_404(Post, pk=self.kwargs['pk'])
     return context
 
-class CommentEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
   model = Comment
   template_name = 'blog/comment_edit.html'
   form_class = CommentForm
