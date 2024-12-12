@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.shortcuts import HttpResponse
-from .models import UserProfile, User, Post
+from .models import UserProfile, User, Post, Comment
 
 
 class UserCreationForm(forms.ModelForm):
@@ -68,3 +68,10 @@ class PostForm(forms.ModelForm):
   class Meta:
     model = Post
     exclude = ['author']
+    
+class CommentForm(forms.ModelForm):
+  class Meta:
+    model = Comment
+    fields = ['content',]
+    exclude = ['author', 'post']
+    

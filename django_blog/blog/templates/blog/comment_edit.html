@@ -1,0 +1,19 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit a comment</title>
+</head>
+<body>
+  <div>
+    {% block content %}
+    <h1>New comment on {{post.author}} </h1>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Save</button>
+    </form>
+    {% endblock %}
+    <a href="{% url 'add_comment' post.pk %}">Cancel</a>
+  </div>
+</body>
+</html>

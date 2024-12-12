@@ -24,3 +24,9 @@ class UserProfileAdmin(admin.ModelAdmin):
   ordering = ['user']
   
 admin.site.register(UserProfile, UserProfileAdmin)
+
+class CommentAdmin(admin.ModelAdmin):
+  list_display = ['post', 'author', 'created_at']
+  list_filter = ['post', 'author', 'created_at']
+  search_fields = ['post', 'author', 'created_at']
+  ordering = ['post']

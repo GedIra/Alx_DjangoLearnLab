@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ post.title }}</title>
+  <link rel="stylesheet" href="{% static 'blog/css/styles.css' %}">
+</head>
+<body>
+  <div>
+    <h1>{{ post.title }}</h1>
+    <p>On {{ post.published_date }}</p>
+    <p>By {{ post.author }}</p>
+    <p>{{ post.content }}</p>
+
+    <h3>Comments</h3>
+    <ul>
+      {% for comment in post.comments.all %}
+        <li><p>
+          <b>{{ comment.author }}</b><br>
+          <span>{{ comment.content }}</span><br>
+          <i>{{ comment.created_at }}</i><br>
+          {% if comment.author == user %}
+            <a href="{% url 'comment_edit' post.pk comment.pk %}"><button>Edit</button></a>
+            <a href="{% url 'comment_delete' post.pk comment.pk %}"><button>Delete</button></a>
+          {% endif %}
+        </p></li>
+      {% endfor %}
+    </ul>
+
+    <h3>Add a new comment</h3>
+    <form method="post" action="{% url 'add_comment' post.pk %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Add Comment</button>
+
+     <!-- <a href="{% url 'post_detail' post.pk %}">
+        <button type="button">Cancel</button>
+      </a> -->
+    </form>
+
+  <div>
+</body>
+</html>

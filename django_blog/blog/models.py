@@ -48,14 +48,22 @@ class Post(models.Model):
   title = models.CharField(max_length=200)
   content = models.TextField()
   published_date = models.DateTimeField(auto_now_add=True)
-  author = models.ForeignKey(User, related_name="posts", on_delete=models.CASCADE, null=False)
+  author = models.ForeignKey(User, related_name="posts", on_delete=models.CASCADE)
   
 
 class UserProfile(models.Model):
-  user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', null=False)
+  user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
   picture = models.URLField(verbose_name='profile picture', blank=True, null=True)
   dob = models.DateField(verbose_name='date of birth', blank=True, null=True)
   bio = models.TextField(verbose_name='biography', blank=True, null=True)
 
+class Comment(models.Model):
+  post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+  author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+  content = models.TextField(verbose_name="comment")
+  created_at = models.DateTimeField(auto_now_add=True)
+  updated_at = models.DateTimeField(auto_now=True)
+  
+  
   
   
