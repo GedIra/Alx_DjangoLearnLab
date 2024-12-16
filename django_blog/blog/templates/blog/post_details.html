@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Posts</title>
+</head>
+<body>
+  <div>
+      <h2><a href="{% url 'comment_add' post.pk %}">{{ post.title }}</a></h2>
+      <p>{{ post.content }}</p>
+      <p>On {{ post.published_date }}</p>
+      <p>By {{ post.author }}</p>
+  
+      <h3>{{ post.comments.count}} Comments</h3>
+      <ul>
+        {% for comment in post.comments.all %}
+          {% if comment.post == post %}
+            <li>
+              <b>{{ comment.author }}:</b><br>
+              <p style="font-size: 20px">{{ comment.content }}</p>
+              <i style="font-size: 15px">{{ comment.created_at }}</i>
+            </li>
+          {% endif %}
+        {% endfor %}
+        <p>Tags:
+          {% for tag in post.tags.all %}
+              <a href="{% url 'post_by_tag' tag.name %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+      </ul>
+    <a href="{% url 'post_edit' post.pk %}">Edit</a>
+  </div>
+</body>
+</html>

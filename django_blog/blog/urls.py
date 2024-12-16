@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (
   RegisterView, UserProfileUpdateView, UserProfileView,PostDeleteView,
-  PostsListView, PostDetailView, PostCreateView, PostEditView,
+  PostsListView, PostDetailView, PostCreateView, PostEditView, PostByTagListView,
   CommentListView, CommentCreateView, CommentUpdateView, CommentDeleteView
   )
 from . import views
@@ -18,8 +18,9 @@ urlpatterns = [
   path('post/new/', PostCreateView.as_view(), name='post_create'),
   path('post/<int:pk>/update/', PostEditView.as_view(), name='post_edit'),
   path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post_delete'),
-  path('post/comments/', CommentListView.as_view(), name='list_comments'),
-  path('post/comment/<int:pk>/new/', CommentCreateView.as_view(), name='add_comment'),
-  path('post/comment/<int:pk>/<int:id>/edit/', CommentUpdateView.as_view(), name='comment_edit'),
-  path('post/comment/<int:pk>/<int:id>/delete/', CommentDeleteView.as_view(), name='comment_delete'),
+  path('post/comments/', CommentListView.as_view(), name='comments_list'),
+  path('post/comment/<int:pk>/new/', CommentCreateView.as_view(), name='comment_add'),
+  path('post/comment/<int:pk>/edit/', CommentUpdateView.as_view(), name='comment_edit'),
+  path('post/comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment_delete'),
+  path('tags/<str:tag_name>/', PostByTagListView.as_view(), name='post_by_tag'),
 ]

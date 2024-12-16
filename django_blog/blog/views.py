@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from .models import UserProfile, User, Post, Comment
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import Q
 
 
 # Create your views here.
@@ -44,7 +45,7 @@ def LogoutView(request):
 
 class UserProfileView(DetailView):
   model = UserProfile
-  template_name = 'blog/profiledetails.html'
+  template_name = 'blog/profile_details.html'
   context_object_name = 'profile'
   
   def get_object(self, queryset = None):
@@ -66,16 +67,22 @@ class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
 class PostsListView(ListView):
   model = Post
   template_name = "blog/posts_list.html"
-  ordering = ['title', 'published_date', 'author']
+  context_object_name = 'posts'
   
-  def get_context_data(self, **kwargs):
-    context = super().get_context_data(**kwargs)
-    context["posts"] = Post.objects.all()
-    return context
+  def get_queryset(self):
+    query = self.request.GET.get('q') 
+    if query:
+      query_terms = query.split()
+      q_objects = Q()
+      
+      for term in query_terms:
+        q_objects |= Q(title__icontains=term) | Q(author__username__icontains=term) | Q(tags__name__icontains=term)
+        return Post.objects.filter(q_objects).distinct().order_by('title')
+    return Post.objects.all().order_by('title')
   
 class PostDetailView(DetailView):
   model = Post
-  template_name = 'blog/post_detail.html'
+  template_name = 'blog/post_details.html'
   context_object_name = 'post'
   
 class PostCreateView(LoginRequiredMixin, CreateView):
@@ -92,6 +99,9 @@ class PostEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
   model = Post
   form_class = PostForm
   template_name = 'blog/post_edit.html'
+  
+  def get_success_url(self):
+    return reverse_lazy('post_detail', kwargs={'pk': self.kwargs['pk']})
   
   def test_func(self):
     post = self.get_object()
@@ -112,7 +122,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
   
 class CommentListView(ListView):
   model = Comment
-  template_name = 'blog/post_comments.html'
+  template_name = 'blog/comments_view.html'
   ordering = ['created_at']
   
   def get_queryset(self):
@@ -146,7 +156,7 @@ class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
   model = Comment
   template_name = 'blog/comment_edit.html'
   form_class = CommentForm
-  pk_url_kwarg = 'id'
+  pk_url_kwarg = 'pk'
   
   def get_success_url(self):
     return reverse_lazy('post_detail', kwargs={'pk': self.object.post.pk})
@@ -156,39 +166,32 @@ class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     return (comment.author == self.request.user)
   
   def form_valid(self, form):
-    post = get_object_or_404(Post, pk=self.kwargs['pk'])
+    post = get_object_or_404(Post, pk=self.object.post.pk)
     form.instance.author = self.request.user
     form.instance.post = post
     return super().form_valid(form)
   
-  def get_context_data(self, **kwargs):
-    context = super().get_context_data(**kwargs)
-    context["post"] = get_object_or_404(Post, pk=self.kwargs['pk'])
-    return context
   
 class CommentDeleteView(LoginRequiredMixin,  UserPassesTestMixin, DeleteView):
   model = Comment
-  pk_url_kwarg = 'id'
   template_name = 'blog/comment_delete.html'
-  form_class = CommentForm
-
+  pk_url_kwarg = 'pk'
+  
+  def get_success_url(self):
+    return reverse_lazy('post_detail', kwargs={'pk': self.object.post.pk})
+ 
   def test_func(self):
     comment = self.get_object()
     return (comment.author == self.request.user)
   
-  def get_success_url(self):
-    return reverse_lazy('post_detail', kwargs={'pk': self.object.post.pk})
 
-  def get_context_data(self, **kwargs):
-    context = super().get_context_data(**kwargs)
-    context["post"] = get_object_or_404(Post, pk=self.kwargs['pk'])
-    return context
-  
+class PostByTagListView(ListView):
+  model = Post
+  template_name = 'blog/posts_list.html'
+  context_object_name = 'posts'
 
+  def get_queryset(self):
+    tag_name = self.kwargs.get('tag_name')
+    return Post.objects.filter(tags__name__icontains=tag_name).distinct().order_by('title')
 
-  
-  
-  
-  
-  
-  
+ 

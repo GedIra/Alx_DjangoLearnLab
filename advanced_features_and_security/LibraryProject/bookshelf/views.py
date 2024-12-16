@@ -30,7 +30,7 @@ def BookDetailView(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     return render(request, 'bookshelf/book_detail.html', {'book': book}) 
     
-@permission_required('bookshelf.can_edit', raise_exception=True)
+@permission_required('bookshelf.can_edit', '/login/')
 def EditBookView(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     

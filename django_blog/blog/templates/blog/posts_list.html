@@ -5,12 +5,18 @@
     <title>Posts</title>
 </head>
 <body>
+  <header>
+    <form method="GET" action="{% url 'posts'%}">
+      <input type="text" name="q" placeholder="Search...">
+      <button type="submit">Search</button>
+    </form>
+  </header>
   <div>
     {% if posts %}
       {% for post in posts %}
-        <h2><a href="{% url 'add_comment' post.pk %}">{{ post.title }}</a></h2>
-        <p>On {{ post.published_date }}</p>
+        <h2><a href="{% url 'comment_add' post.pk %}">{{ post.title }}</a></h2>
         <p>By {{ post.author }}</p>
+        <p>On {{ post.published_date }}</p>
       {% endfor %}
 
     {% else %}

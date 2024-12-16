@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
+from taggit.managers import TaggableManager
 
 # Create your models here.
 
@@ -17,7 +18,6 @@ class CustomUserManager(BaseUserManager):
     
     user.set_password(password)
     user.save(using = self._db)
-    
     return user
   
   def create_superuser(self, username_field, email, password=None):
@@ -28,7 +28,6 @@ class CustomUserManager(BaseUserManager):
     user.is_superuser = True
     user.is_staff = True
     user.save(using=self._db)
-    
     return user
 
 class User(AbstractUser):
@@ -50,6 +49,8 @@ class Post(models.Model):
   published_date = models.DateTimeField(auto_now_add=True)
   author = models.ForeignKey(User, related_name="posts", on_delete=models.CASCADE)
   
+  tags = TaggableManager()
+  
 
 class UserProfile(models.Model):
   user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
@@ -63,6 +64,10 @@ class Comment(models.Model):
   content = models.TextField(verbose_name="comment")
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
+  
+
+
+  
   
   
   
