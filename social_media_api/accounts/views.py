@@ -24,9 +24,13 @@ def Logout(request):
 
 
 ### APIVIEWS
-from rest_framework import generics, response
+from rest_framework import generics
+from rest_framework.response import Response
 from .serializers import UserSerializer, RegisterSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.views import ObtainAuthToken
 
 
 class UserCreationAPIView(generics.CreateAPIView):
@@ -37,11 +41,12 @@ class UserListAPIView(generics.ListAPIView):
   queryset = User.objects.all()
   serializer_class = UserSerializer
   permission_classes = [IsAuthenticated]
+  authentication_classes = [TokenAuthentication]
   
   def get(self, request, format=None):
-    usernames = [user.id for user in User.objects.all()]
+    usernames = [user.username for user in User.objects.all()]
   
-    return response.Response(usernames)
+    return Response(usernames)
     
   
 class UserRegisterAPIView(generics.CreateAPIView):
@@ -51,14 +56,24 @@ class UserRegisterAPIView(generics.CreateAPIView):
 class UserProfileManagementAPIView(generics.RetrieveUpdateDestroyAPIView):
   queryset = User.objects.all()
   serializer_class = UserSerializer
-  permission_classes = [IsAuthenticated]
+  permission_classes = [IsAuthenticatedOrReadOnly]
   
   def get_queryset(self):
     user = self.request.user
     queryset = User.objects.filter(username = user.username)
     return queryset
-  
 
+class CustomTokenObtainView(ObtainAuthToken):
+  def post(self, request, *args, **kwargs):
+    serializer = self.serializer_class(data=request.data, context={"request": request})
+    serializer.is_valid(raise_exception=True)
+    user = serializer.validated_data['user']
+    token, created = Token.objects.get_or_create(user=user)
+    
+    return Response({
+      'user': user.username,
+      'token': token.key 
+    })
     
     
       
