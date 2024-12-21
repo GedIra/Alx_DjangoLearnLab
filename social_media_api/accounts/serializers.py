@@ -25,6 +25,6 @@ class RegisterSerializer(serializers.ModelSerializer):
     return user
     
 
-#serializers.CharField(max_length=100, write_only=True)
+#serializers.CharField()
 
     
