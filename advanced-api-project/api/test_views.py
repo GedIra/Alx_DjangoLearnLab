@@ -14,7 +14,7 @@ class AuthorTest(APITestCase):
     self.assertEqual(Author.objects.get().name, 'Ged Ira')
 
 class BookTest(APITestCase):
-  
+   
   def setUp(self) -> None:
     User = get_user_model()
     self.user = User.objects.create_user(username='lauren',email='' ,password='secret123')
