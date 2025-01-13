@@ -3,7 +3,8 @@ from django.views.generic import CreateView
 from .models import Book
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.decorators import permission_required, login_required
-from .forms import BookForm, ExampleForm, User
+from .forms import ExampleForm
+from .forms import BookForm, User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import logout
 #from django.contrib.auth.mixins import PermissionRequiredMixin
