@@ -147,3 +147,5 @@ X_FRAME_OPTIONS = 'DENY'  # Prevents clickjacking by not allowing the site to be
 SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevents the browser from MIME-sniffing a response away from the declared content-type
 SECURE_BROWSER_XSS_FILTER = True  # Enables the X-XSS-Protection header
 
+# Proxy SSL settings
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
