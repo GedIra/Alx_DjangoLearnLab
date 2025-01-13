@@ -130,11 +130,20 @@ AUTH_USER_MODEL = "bookshelf.CustomUser"
 
 """Security Measures"""
 
+# SECURITY: Redirect all non-HTTPS requests to HTTPS
+SECURE_SSL_REDIRECT = True  # Ensure HTTPS is enforced
 
-SECURE_BROWSER_XSS_FILTER = True  # Enables the X-XSS-Protection header
+# SECURITY: Enforce HTTP Strict Transport Security (HSTS)
+SECURE_HSTS_SECONDS = 31536000  # Max-Age set to 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply HSTS policy to all subdomains
+SECURE_HSTS_PRELOAD = True  # Allow HSTS to be preloaded by browsers
+
+# SECURITY: Secure cookies
+SESSION_COOKIE_SECURE = True  # Send session cookies only over HTTPS
+CSRF_COOKIE_SECURE = True  # Send CSRF cookies only over HTTPS
+
+# SECURITY: Additional security headers
 X_FRAME_OPTIONS = 'DENY'  # Prevents clickjacking by not allowing the site to be rendered in a frame
 SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevents the browser from MIME-sniffing a response away from the declared content-type
+SECURE_BROWSER_XSS_FILTER = True  # Enables the X-XSS-Protection header
 
-#Ensure that cookies are only sent over HTTPS
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
