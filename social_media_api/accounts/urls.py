@@ -1,7 +1,6 @@
 from django.urls import path
 from .views import (Register, welcome, Logout,
         UserCreationAPIView, UserListAPIView, UserRegisterAPIView, UserProfileManagementAPIView,
-        CustomTokenObtainView
       )
 
 from django.contrib.auth import views as auth_views
@@ -16,7 +15,7 @@ urlpatterns = [
   path('users/',UserListAPIView.as_view(), name = "users"),
   path('user/create/', UserCreationAPIView.as_view(), name='create_user'),
   path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-  path('login/', CustomTokenObtainView.as_view(), name='token_obtain'),
+  path('api/login/', TokenObtainPairView.as_view(), name='token_obtain'),
   path('register/', UserRegisterAPIView.as_view(), name='api_register'),
   path('me/<int:pk>/', UserProfileManagementAPIView.as_view(), name='user-detail'),
 ]
