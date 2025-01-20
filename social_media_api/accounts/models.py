@@ -35,3 +35,5 @@ class User(AbstractUser):
     return self.username
   
 User = get_user_model()
+  
+  
